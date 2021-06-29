@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.1.3)
 project(anomaly_detection)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+# Compile as C++11, supported in ROS Kinetic and newer
+add_compile_options(-std=c++11)
 # message(${CMAKE_CURRENT_SOURCE_DIR})
 # add_custom_command(
 #   OUTPUT anomaly_detection
@@ -20,16 +20,20 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-find_package(OpenCV REQUIRED)
-INCLUDE(FindPkgConfig)
-pkg_check_modules(OPENCV REQUIRED opencv)
-link_directories(${OPENCV_LIBRARY_DIRS})
+find_package(OpenCV 4 REQUIRED)
+# INCLUDE(FindPkgConfig)
+# pkg_check_modules(OPENCV REQUIRED opencv)
+include_directories("/usr/include/opencv4/")
+link_directories(${OpenCV_LIBRARY_DIRS})
 
 find_package(Boost REQUIRED)
 link_directories(${Boost_LIBRARY_DIRS})
 
 find_package(PythonLibs REQUIRED)
-link_directories(${PYTHON_LIBRARY_DIRS})
+#set(PYTHON_EXECUTABLE "/usr/bin/python2.7")
+set(PYTHON_INCLUDE_DIR "/usr/include/python2.7")
+set(PYTHON_LIBRARIES "/usr/lib/aarch64-linux-gnu/libpython2.7.so") 
+# link_directories(${PYTHON_LIBRARY_DIRS})
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -134,7 +138,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
-  ${OPENCV_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${PYTHON_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/matplotlib-cpp-starter/
@@ -166,7 +170,7 @@ target_link_libraries(test_sandbox
 
 add_executable(test_anomaly_detection src/test_anomaly_detection.cpp)
 target_link_libraries(test_anomaly_detection
-  ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${OPENCV_LIBRARIES}
+  ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBRARIES}
 )
 
 add_executable(test_matplotlibcpp src/test_matplotlibcpp.cpp)
@@ -176,12 +180,12 @@ target_link_libraries(test_matplotlibcpp
 
 add_executable(test_anomaly_detection_uni src/test_anomaly_detection_uni.cpp)
 target_link_libraries(test_anomaly_detection_uni
-  ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${OPENCV_LIBRARIES}
+  ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBRARIES}
 )
 
 add_executable(test_anomaly_detection_mul src/test_anomaly_detection_mul.cpp)
 target_link_libraries(test_anomaly_detection_mul
-  ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${OPENCV_LIBRARIES}
+  ${catkin_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBRARIES}
 )
 
 ## Rename C++ executable without prefix
