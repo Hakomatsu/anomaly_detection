@@ -1,3 +1,4 @@
 # anomaly_detection
-Ported from my own ROS package.  
-After porting, it has not been compiled or checked for operation.  
+Anomaly detection code.  
+Confirmed successful build on ROS Kinetic system.
+Before building this package, you need to install matplotlib with pip(Python2.7).  
